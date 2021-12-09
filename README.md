@@ -80,6 +80,13 @@ After you've changed the domain you can use the following commands to deploy the
 kubectl apply -f client-ingress.yaml
 kubectl apply -f client.yaml
 ```
+
+## Result
+You should be able to access your page on the record you defined above, eg client.domain.com
+It should look like the following:
+![Screenshot](1.jpg)
+Add a new message and watch it append
+![Screenshot](2.jpg)
 ### Comments
 If you want to upload your own application you can do so by following these steps:
 
