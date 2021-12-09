@@ -84,9 +84,9 @@ kubectl apply -f client.yaml
 ## Result
 You should be able to access your page on the record you defined above, eg client.domain.com
 It should look like the following:
-![Screenshot](1.jpg)
+![Screenshot](1.png)
 Add a new message and watch it append
-![Screenshot](2.jpg)
+![Screenshot](2.png)
 ### Comments
 If you want to upload your own application you can do so by following these steps:
 
