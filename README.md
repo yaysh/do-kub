@@ -70,6 +70,11 @@ Inside client-ingress.yaml, change the following
 >  - host: ""
 to point towards the domain you want your backend to live on. An example can be client.mydomain.com
 
+Inside client.yaml, change the following
+>- name: VUE_APP_API_URL
+>value: ""
+to the url of your backend domain, eg backend.domain.com
+
 After you've changed the domain you can use the following commands to deploy the client
 ```
 kubectl apply -f client-ingress.yaml
