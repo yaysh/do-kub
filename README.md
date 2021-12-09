@@ -3,8 +3,8 @@
 >When deploying a database on Kubernetes, you have to make it redundant and scalable. You can rely on database management operators like KubeDB or database-specific solutions like Kubegres for PostgreSQL or the MySQL Operator for MySQL. 
 
 ## Requirements
-Create a Kubernetes cluster on [Digital Ocean](https://www.digitalocean.com/products/kubernetes/)
-Install the [NGINX Ingress Controller](https://marketplace.digitalocean.com/apps/nginx-ingress-controller) on your cluster.
+Create a Kubernetes cluster on [Digital Ocean](https://www.digitalocean.com/products/kubernetes/)  
+Install the [NGINX Ingress Controller](https://marketplace.digitalocean.com/apps/nginx-ingress-controller) on your cluster.  
 Two records which will host the backend and client.
 
 ### NOTE
@@ -32,9 +32,9 @@ stringData:
   dokubHost: <service>
 
 ```
-The dokub- secrets will be used by our client applications to access the data. 
-The defined user in the postgres-config file gains access to the database. 
-Furthermore, the config-file has been altered so that a database and table are created on startup (unless they exist). 
+The dokub- secrets will be used by our client applications to access the data.  
+The defined user in the postgres-config file gains access to the database.  
+Furthermore, the config-file has been altered so that a database and table are created on startup (unless they exist).  
 
 There is a slight modification we need to make to the Kubegres-file from the documentation. Swap the database lines with the following:
 ``` 
@@ -90,8 +90,8 @@ Add a new message and watch it append
 ### Comments
 If you want to upload your own application you can do so by following these steps:
 
-Upload an image to a repository (I used [docker hub](https://docs.docker.com/docker-hub/repos/))
-In the yaml file that contains Service and Deploy (eg backend.yaml and client.yaml in this repo) point to your uploaded image.
-In your ingress.yaml, point towards a subdomain that you create that is directed to your kubernetes cluster.
+Upload an image to a repository (I used [docker hub](https://docs.docker.com/docker-hub/repos/))  
+In the yaml file that contains Service and Deploy (eg backend.yaml and client.yaml in this repo) point to your uploaded image.  
+In your ingress.yaml, point towards a subdomain that you create that is directed to your kubernetes cluster.  
 
 If you want to test locally you can use docker-compose up in the root of this project.
