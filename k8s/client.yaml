@@ -30,7 +30,3 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
-        env:
-        - name: VUE_APP_API_URL
-          value: 
-        

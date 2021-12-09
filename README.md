@@ -5,10 +5,10 @@
 ## Requirements
 Create a Kubernetes cluster on [Digital Ocean](https://www.digitalocean.com/products/kubernetes/)  
 Install the [NGINX Ingress Controller](https://marketplace.digitalocean.com/apps/nginx-ingress-controller) on your cluster.  
-Two records which will host the backend and client.
+A record which will host the backend and client.
 
 ### NOTE
-I created the two records on the following [page](https://cloud.digitalocean.com/networking/domains/). Add the hostnames you want for your client and your backend and under "Will direct to" choose the Load balancer that was created when you installed the NGINX Ingress Controller.
+I created a record on the following [page](https://cloud.digitalocean.com/networking/domains/). Add the hostnames you want for your client and under "Will direct to" choose the Load balancer that was created when you installed the NGINX Ingress Controller.
 
 ## Deploy PostgreSQL to Kubernetes Cluster using Kubegres
 
@@ -55,13 +55,8 @@ kubectl apply -f postgres-config.yaml
 kubectl apply -f postgres.yaml
 ```
 ## Deploy backend    
-Inside backend-ingress.yaml, change the following 
->  - host: ""
-to point towards the domain you want your backend to live on. An example can be backend.mydomain.com
-
-After you've changed the domain you can use the following commands to deploy the backend
+API calls will be forwarded in the client ingress. Check client-ingress.yaml to see how
 ```
-kubectl apply -f backend-ingress.yaml
 kubectl apply -f backend.yaml
 ```
 
@@ -70,10 +65,21 @@ Inside client-ingress.yaml, change the following
 >  - host: ""
 to point towards the domain you want your backend to live on. An example can be client.mydomain.com
 
-Inside client.yaml, change the following
->- name: VUE_APP_API_URL
->value: ""
-to the url of your backend domain, eg backend.domain.com
+Inside the client-ingress we also forward the calls from the frontend to the backend service. This will allow the frontend to communicate with the backend in the following way (so the baseurl is not needed)
+```
+fetch("/api/messages")
+```
+in our frontend and the request will be redirected correctly.
+```
+- pathType: Prefix
+path: /api/
+backend:
+  service: 
+    name: backend-service
+    port:
+      number: 3000
+
+```
 
 After you've changed the domain you can use the following commands to deploy the client
 ```

@@ -31,7 +31,7 @@ export default defineComponent({
         async getMessages() {
             let headers = new Headers();
             headers.set("Content-Type", "application/json");
-            await fetch(process.env.VUE_APP_API_URL + "/messages", {
+            await fetch("/api/messages", {
                 method: "GET",
                 headers: headers,
             })
@@ -42,7 +42,7 @@ export default defineComponent({
             if (this.new_message.length < 250 && this.new_message.length > 0) {
                 let headers = new Headers();
                 headers.set("Content-Type", "application/json");
-                await fetch(process.env.VUE_APP_API_URL + "/messages", {
+                await fetch("/api/messages", {
                     method: "POST",
                     headers: headers,
                     body: JSON.stringify({ message: this.new_message }),
@@ -51,8 +51,11 @@ export default defineComponent({
                         if (x.status == 201) return x.json();
                     })
                     .then((x: Message) => {
-                        if (x.message && x.message_id && x.message_id > 0)
+                        if (x.message && x.message_id && x.message_id > 0) {
                             this.messages.push(x);
+                            this.new_message = "";
+                        }
+                            
                     });
             }
         },

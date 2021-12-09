@@ -17,8 +17,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.get('/', index.defaultMessage)
-app.get('/messages', db.getMessages);
-app.post('/messages', db.createMessage);
+app.get('/api/messages', db.getMessages);
+app.post('/api/messages', db.createMessage);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
