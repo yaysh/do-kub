@@ -1,11 +1,21 @@
 version: "3.9"
 
-networks: 
-    do_kub_network:
-        driver: bridge
-
 services: 
-  
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
+    ports:
+      - 1234:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      do_kub_network:
+        aliases:
+          - proxy-name
+    depends_on:
+      - backend
+      - frontend
+
   backend:  
     env_file: ./.env
     build: 
@@ -13,36 +23,27 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - postgres
-    ports:
+    ports: 
       - "3000:3000"
     networks:
-      - do_kub_network
+      do_kub_network:
+        aliases:
+          - backend-name
 
-  client:  
+
+  frontend:  
     env_file: ./.env
     build: 
-      context: ./client/
+      context: ./frontend/
       dockerfile: Dockerfile
     depends_on:
-      - postgres
       - backend
-    ports:
+    ports: 
       - "8080:8080"
     networks:
-      - do_kub_network
-
-  # client:  
-  #   env_file: ./.env
-  #   build: 
-  #     context: ./client/
-  #     dockerfile: Dockerfile
-  #   depends_on:
-  #     - postgres
-  #     - backend
-  #   ports:
-  #     - "8080:8080"
-  #   networks:
-  #     - do_kub_network
+      do_kub_network:
+        aliases:
+          - frontend-name
 
   postgres:
     image: postgres
@@ -54,4 +55,9 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - do_kub_network
+      do_kub_network:
+        aliases:
+          - psql
+
+networks:
+  do_kub_network:
