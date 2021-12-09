@@ -1,0 +1,33 @@
+apiVersion: kubegres.reactive-tech.io/v1
+kind: Kubegres
+metadata:
+  name: mypostgres
+  namespace: default
+
+spec:
+  replicas: 3
+  image: postgres:14.1
+  
+  database:
+    size: 1Gi
+    storageClassName: do-block-storage
+    volumeMount: /var/lib/postgresql/data
+
+  customConfig: dokub-kubegres-config
+
+  env:
+  - name: POSTGRES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: postgres-secret
+        key: superUserPassword
+  - name: POSTGRES_REPLICATION_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: postgres-secret
+        key: replicationUserPassword
+  - name: POSTGRES_DOKUB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: postgres-secret
+        key: dokubPassword

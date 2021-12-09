@@ -1,0 +1,57 @@
+version: "3.9"
+
+networks: 
+    do_kub_network:
+        driver: bridge
+
+services: 
+  
+  backend:  
+    env_file: ./.env
+    build: 
+      context: ./backend/
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    networks:
+      - do_kub_network
+
+  client:  
+    env_file: ./.env
+    build: 
+      context: ./client/
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - backend
+    ports:
+      - "8080:8080"
+    networks:
+      - do_kub_network
+
+  # client:  
+  #   env_file: ./.env
+  #   build: 
+  #     context: ./client/
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - postgres
+  #     - backend
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #     - do_kub_network
+
+  postgres:
+    image: postgres
+    container_name: pg-container
+    ports:      
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "testpassword"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - do_kub_network

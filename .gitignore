@@ -1,0 +1,32 @@
+my-postgres-secret.yaml
+
+backend/node_modules
+backend/node_modules/*
+backend/dist
+
+client/.DS_Store
+client/node_modules
+client/dist
+
+
+# local env files
+.env
+
+# Log files
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+client/pnpm-debug.log*
+
+# Editor directories and files
+client/.idea
+client/.vscode
+client/*.suo
+client/*.ntvs*
+client/*.njsproj
+client/*.sln
+client/*.sw?
+backend/bin/www
+k8s/deploy.sh
+k8s/remove.sh
+k8s/postgres-secret.yaml
